@@ -1,0 +1,541 @@
+<!-- Created with Jaspersoft Studio version 7.0.1.final using JasperReports Library version 7.0.1-573496633c2b4074e32f433154b543003f7d2498  -->
+<jasperReport name="Plan_mantenimiento" language="java" columnCount="1" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="60f73536-9783-4538-b93e-43b3b9cbdd51">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<style name="Style1" mode="Transparent">
+		<conditionalStyle mode="Opaque" forecolor="#FFFFFF" backcolor="#DB2721">
+			<conditionExpression><![CDATA[$V{indice_cumplimiento}.contains("0")]]></conditionExpression>
+		</conditionalStyle>
+		<conditionalStyle mode="Opaque" forecolor="#FFFFFF" backcolor="#FF6600">
+			<conditionExpression><![CDATA[$V{indice_cumplimiento}.contains("3")]]></conditionExpression>
+		</conditionalStyle>
+		<conditionalStyle mode="Opaque" forecolor="#FFFFFF" backcolor="#20A825">
+			<conditionExpression><![CDATA[$V{indice_cumplimiento}.contains("5")]]></conditionExpression>
+		</conditionalStyle>
+	</style>
+	<dataset name="Dataset1" uuid="711dc09c-0e20-4fab-86e6-67445f959b50">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<query language="plsql"><![CDATA[SELECT count(*) as total_equipos, 
+(select count(*) from (select count(*) from mantenimiento group by area)) as cant_areas,
+(select count(*) from mantenimiento where primermantenimiento= 'General') as cant_mantenimiento_I_general,
+(select count(*) from mantenimiento where primermantenimiento= 'Parcial') as cant_mantenimiento_I_parcial,
+(select count(*) from mantenimiento where segundomantenimiento= 'General') as cant_mantenimiento_II_general,
+(select count(*) from mantenimiento where segundomantenimiento= 'Parcial') as cant_mantenimiento_II_parcial
+FROM mantenimiento;]]></query>
+		<field name="total_equipos" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.name" value="total_equipos"/>
+			<property name="com.jaspersoft.studio.field.label" value="total_equipos"/>
+		</field>
+		<field name="cant_areas" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.name" value="cant_areas"/>
+			<property name="com.jaspersoft.studio.field.label" value="cant_areas"/>
+		</field>
+		<field name="cant_mantenimiento_i_general" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.name" value="cant_mantenimiento_i_general"/>
+			<property name="com.jaspersoft.studio.field.label" value="cant_mantenimiento_i_general"/>
+		</field>
+		<field name="cant_mantenimiento_i_parcial" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.name" value="cant_mantenimiento_i_parcial"/>
+			<property name="com.jaspersoft.studio.field.label" value="cant_mantenimiento_i_parcial"/>
+		</field>
+		<field name="cant_mantenimiento_ii_general" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.name" value="cant_mantenimiento_ii_general"/>
+			<property name="com.jaspersoft.studio.field.label" value="cant_mantenimiento_ii_general"/>
+		</field>
+		<field name="cant_mantenimiento_ii_parcial" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.name" value="cant_mantenimiento_ii_parcial"/>
+			<property name="com.jaspersoft.studio.field.label" value="cant_mantenimiento_ii_parcial"/>
+		</field>
+	</dataset>
+	<dataset name="Dataset2" uuid="d1358d0b-ea01-4daa-a0f5-86b7e64cdea9">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+		<query language="plsql"><![CDATA[SELECT count(*) as total_equipos, 
+(select count(*) from mantenimiento where cumplimiento= true) as cumplidos
+FROM mantenimiento;]]></query>
+		<field name="total_equipos" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.name" value="total_equipos"/>
+			<property name="com.jaspersoft.studio.field.label" value="total_equipos"/>
+		</field>
+		<field name="cumplidos" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.name" value="cumplidos"/>
+			<property name="com.jaspersoft.studio.field.label" value="cumplidos"/>
+		</field>
+		<variable name="indice_cumplimiento" resetType="None" class="java.lang.String">
+			<expression><![CDATA[((java.util.function.Supplier<String>)()->{
+	String indice;
+	Long parte= $F{cumplidos};
+    Long total= $F{total_equipos};
+    if(total.equals(0)) return "No disponible";
+    double porCiento= parte * 100 / total;
+    if(porCiento == 0) indice= "No disponible";
+    else if(porCiento <= 80l) indice= "Índice: 0";
+    else if(porCiento >= 81l && porCiento <= 99l) indice= "Índice: 3";
+    else indice= "Índice: 5";
+    return indice;
+}).get()]]></expression>
+		</variable>
+	</dataset>
+	<query language="plsql"><![CDATA[SELECT * FROM mantenimiento ORDER BY area;]]></query>
+	<field name="id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="mantenimiento"/>
+	</field>
+	<field name="area" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="area"/>
+		<property name="com.jaspersoft.studio.field.label" value="area"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="mantenimiento"/>
+	</field>
+	<field name="equipo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="equipo"/>
+		<property name="com.jaspersoft.studio.field.label" value="equipo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="mantenimiento"/>
+	</field>
+	<field name="numinventario" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="numinventario"/>
+		<property name="com.jaspersoft.studio.field.label" value="numinventario"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="mantenimiento"/>
+	</field>
+	<field name="primermantenimiento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="primermantenimiento"/>
+		<property name="com.jaspersoft.studio.field.label" value="primermantenimiento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="mantenimiento"/>
+	</field>
+	<field name="primerafechaplan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="primerafechaplan"/>
+		<property name="com.jaspersoft.studio.field.label" value="primerafechaplan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="mantenimiento"/>
+	</field>
+	<field name="primerafechareal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="primerafechareal"/>
+		<property name="com.jaspersoft.studio.field.label" value="primerafechareal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="mantenimiento"/>
+	</field>
+	<field name="segundafechaplan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="segundafechaplan"/>
+		<property name="com.jaspersoft.studio.field.label" value="segundafechaplan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="mantenimiento"/>
+	</field>
+	<field name="segundafechareal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="segundafechareal"/>
+		<property name="com.jaspersoft.studio.field.label" value="segundafechareal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="mantenimiento"/>
+	</field>
+	<field name="segundomantenimiento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="segundomantenimiento"/>
+		<property name="com.jaspersoft.studio.field.label" value="segundomantenimiento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="mantenimiento"/>
+	</field>
+	<field name="cumplimiento" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.name" value="cumplimiento"/>
+		<property name="com.jaspersoft.studio.field.label" value="cumplimiento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="mantenimiento"/>
+	</field>
+	<background splitType="Stretch"/>
+	<pageHeader height="131" splitType="Stretch">
+		<element kind="image" uuid="425ec2fe-11d0-441f-a705-a381d027d82f" x="311" y="-10" width="130" height="100">
+			<expression><![CDATA["Reportes/CUPET_Logo.png"]]></expression>
+		</element>
+		<element kind="textField" uuid="9bd90d8e-d1f0-42d9-8a99-6cb3bcb0300e" x="610" y="30" width="140" height="30" fontName="Arial" fontSize="14.0" pattern="MMMMM dd, yyyy">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+		<element kind="staticText" uuid="8860aa51-f203-4b26-9c54-c45322d45f33" x="10" y="90" width="730" height="30" fontName="Arial" fontSize="15.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Plan de Mantenimiento a Medios Informáticos]]></text>
+		</element>
+	</pageHeader>
+	<columnHeader height="46" splitType="Stretch">
+		<element kind="staticText" uuid="829f03b3-63d4-44b0-8965-37e9621d2992" mode="Opaque" x="0" y="6" width="70" height="40" backcolor="#66FFFF" rotation="None" fontName="Arial" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Top">
+			<text><![CDATA[Equipo]]></text>
+			<box topPadding="3" leftPadding="0">
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="76d90c8e-47f6-4ef6-85dd-2c22eb8d182d" mode="Opaque" x="70" y="6" width="90" height="40" backcolor="#66FFFF" rotation="None" fontName="Arial" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Top">
+			<text><![CDATA[No Inventario]]></text>
+			<box topPadding="3" leftPadding="0">
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="a3a61332-0220-4332-a65c-bdc395ffb979" mode="Opaque" x="160" y="6" width="70" height="40" backcolor="#66FFFF" rotation="None" fontName="Arial" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Top">
+			<text><![CDATA[Área]]></text>
+			<box topPadding="3" leftPadding="0">
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="c64074a9-022d-4aab-8be5-20cc48596c43" mode="Opaque" x="230" y="6" width="120" height="20" backcolor="#66FFFF" rotation="None" fontName="Arial" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Top">
+			<text><![CDATA[Mantenimiento]]></text>
+			<box topPadding="3" leftPadding="0">
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="20380420-1ced-4bf2-bf69-efbf1e56979e" mode="Opaque" x="230" y="26" width="60" height="20" backcolor="#66FFFF" rotation="None" fontName="Arial" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Top">
+			<text><![CDATA[General]]></text>
+			<box topPadding="3" leftPadding="0">
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="d54e617b-17a9-4957-a66e-261aafe30994" mode="Opaque" x="290" y="26" width="60" height="20" backcolor="#66FFFF" rotation="None" fontName="Arial" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Top">
+			<text><![CDATA[Parcial]]></text>
+			<box topPadding="3" leftPadding="0">
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="4423c5d9-c175-43e8-86a4-94cd0dec3355" mode="Opaque" x="350" y="6" width="140" height="20" backcolor="#66FFFF" rotation="None" fontName="Arial" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Top">
+			<text><![CDATA[Fecha I Semestre]]></text>
+			<box topPadding="3" leftPadding="0">
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="e44b9356-840b-4c76-b840-500e744d5349" mode="Opaque" x="350" y="26" width="70" height="20" backcolor="#66FFFF" rotation="None" fontName="Arial" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Top">
+			<text><![CDATA[Plan]]></text>
+			<box topPadding="3" leftPadding="0">
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="052b622b-a3db-426c-a09e-f2a44e5e18f8" mode="Opaque" x="420" y="26" width="70" height="20" backcolor="#66FFFF" rotation="None" fontName="Arial" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Top">
+			<text><![CDATA[Real]]></text>
+			<box topPadding="3" leftPadding="0">
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="194b2642-09ad-499d-97ca-19ddb6bac46c" mode="Opaque" x="490" y="6" width="120" height="20" backcolor="#66FFFF" rotation="None" fontName="Arial" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Top">
+			<text><![CDATA[Mantenimiento]]></text>
+			<box topPadding="3" leftPadding="0">
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="b6610cbe-2af2-441e-9206-6b0ca928ab39" mode="Opaque" x="490" y="26" width="60" height="20" backcolor="#66FFFF" rotation="None" fontName="Arial" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Top">
+			<text><![CDATA[General]]></text>
+			<box topPadding="3" leftPadding="0">
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="03ae9763-596e-4dc5-8efc-25863e9f9f6f" mode="Opaque" x="550" y="26" width="60" height="20" backcolor="#66FFFF" rotation="None" fontName="Arial" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Top">
+			<text><![CDATA[Parcial]]></text>
+			<box topPadding="3" leftPadding="0">
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="168b9b64-9176-4e68-a7d8-cc3c9c532c98" mode="Opaque" x="610" y="26" width="70" height="20" backcolor="#66FFFF" rotation="None" fontName="Arial" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Top">
+			<text><![CDATA[Plan]]></text>
+			<box topPadding="3" leftPadding="0">
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="224fbd13-abd6-4bfa-a4db-fae529c5ad59" mode="Opaque" x="680" y="26" width="70" height="20" backcolor="#66FFFF" rotation="None" fontName="Arial" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Top">
+			<text><![CDATA[Real]]></text>
+			<box topPadding="3" leftPadding="0">
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="1b6d7421-95e4-4105-a19b-848c4db8d3e3" mode="Opaque" x="610" y="6" width="140" height="20" backcolor="#66FFFF" rotation="None" fontName="Arial" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Top">
+			<text><![CDATA[Fecha II Semestre]]></text>
+			<box topPadding="3" leftPadding="0">
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="40" splitType="Stretch">
+			<element kind="textField" uuid="8726fbf3-8a27-4ea6-9df8-2d7fbe654125" x="0" y="0" width="70" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{equipo}]]></expression>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="18786017-ae6b-442d-b928-0162c9de9655" x="70" y="0" width="90" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{numinventario}]]></expression>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="e78f1ddf-6a4e-41a4-8c5e-719c400bbe82" x="160" y="0" width="70" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{area}]]></expression>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="09bd3adc-c687-480b-bacc-a594cfe197e0" x="230" y="0" width="60" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{primermantenimiento}.equals( "General" )? "X" : ""]]></expression>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="f2a5b4b1-ca36-4e84-8b4f-0baac988a9ba" x="290" y="0" width="60" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{primermantenimiento}.equals( "Parcial" )? "X" : ""]]></expression>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="97d07028-7296-4c48-abe2-00d8920fd515" x="350" y="0" width="70" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{primerafechaplan}]]></expression>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="260a52c3-c8a1-4056-892d-e3c76d934540" x="420" y="0" width="70" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{primerafechareal}]]></expression>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="51cde896-1d23-406e-b2a1-4a5b4ce812a2" x="490" y="0" width="60" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{segundomantenimiento}.equals( "General" )? "X" : ""]]></expression>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="174c85f3-64d4-4f5d-8966-3636a075b20f" x="550" y="0" width="60" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{segundomantenimiento}.equals( "Parcial" )? "X" : ""]]></expression>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="0aa5c7f0-d8e9-4da1-86c4-77019fe8d5db" x="610" y="0" width="70" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{segundafechaplan}]]></expression>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="f81da537-8707-46e8-b623-5807741d764b" x="680" y="0" width="70" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{segundafechareal}]]></expression>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+		</band>
+	</detail>
+	<pageFooter height="54" splitType="Stretch">
+		<element kind="textField" uuid="3965712f-733a-49f0-9b19-27b2d4c79d99" x="80" y="10" width="20" height="30" fontName="Arial" fontSize="12.0" evaluationTime="Report">
+			<expression><![CDATA[$V{PAGE_NUMBER}]]></expression>
+		</element>
+		<element kind="staticText" uuid="648e67ab-120d-4d4a-9bf2-5fcc3e090fee" x="70" y="10" width="10" height="30" fontName="Arial" fontSize="12.0">
+			<text><![CDATA[/]]></text>
+		</element>
+		<element kind="textField" uuid="667edfdc-a99b-4aa8-9f75-001578b3b357" x="51" y="10" width="19" height="30" fontName="Arial" fontSize="12.0">
+			<expression><![CDATA[$V{PAGE_NUMBER}]]></expression>
+		</element>
+		<element kind="staticText" uuid="74d5250a-e6e1-4ec9-bc30-c3ab079b3166" x="0" y="10" width="51" height="30" fontName="Arial" fontSize="12.0">
+			<text><![CDATA[Página]]></text>
+		</element>
+	</pageFooter>
+	<summary height="120">
+		<element kind="component" uuid="48fe3246-0236-4fd7-b947-9220615d5806" x="0" y="0" width="750" height="50">
+			<component kind="list">
+				<datasetRun uuid="e45a75d6-96cd-405b-a963-06abc919a353" subDataset="Dataset1">
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				</datasetRun>
+				<contents height="50" width="750">
+					<element kind="staticText" uuid="c1f4a9b9-7108-4e87-8acc-d5930dddd336" x="0" y="0" width="70" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+						<text><![CDATA[Total]]></text>
+						<box>
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+					</element>
+					<element kind="textField" uuid="00e1a22c-7fd7-4254-9ea3-dee198c5a491" x="70" y="0" width="90" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+						<expression><![CDATA[$F{total_equipos}]]></expression>
+						<box>
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+					</element>
+					<element kind="textField" uuid="72f1267d-f122-4ba3-841c-04c150cad70a" x="160" y="0" width="70" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+						<expression><![CDATA[$F{cant_areas}]]></expression>
+						<box>
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+					</element>
+					<element kind="textField" uuid="9fd3334b-a755-488b-8887-9ff6b0c1c874" x="230" y="0" width="60" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+						<expression><![CDATA[$F{cant_mantenimiento_i_general}]]></expression>
+						<box>
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+					</element>
+					<element kind="textField" uuid="14e27c1d-1e21-4211-b35f-1f661a73a073" x="290" y="0" width="60" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+						<expression><![CDATA[$F{cant_mantenimiento_i_parcial}]]></expression>
+						<box>
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+					</element>
+					<element kind="staticText" uuid="55d23757-5bf2-4573-a2de-5c786c431221" x="350" y="0" width="70" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+						<text><![CDATA[Plan]]></text>
+						<box>
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+					</element>
+					<element kind="staticText" uuid="7a8ae959-e9c8-4c9a-96aa-27953eb4aca1" x="420" y="0" width="70" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+						<text><![CDATA[Real]]></text>
+						<box>
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+					</element>
+					<element kind="textField" uuid="7b1c5628-ea37-4025-afe3-66917076e873" x="490" y="0" width="60" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+						<expression><![CDATA[$F{cant_mantenimiento_ii_general}]]></expression>
+						<box>
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+					</element>
+					<element kind="textField" uuid="7f8b44b2-69ae-4392-b27d-b4dc4cc7450d" x="550" y="0" width="60" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+						<expression><![CDATA[$F{cant_mantenimiento_ii_parcial}]]></expression>
+						<box>
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+					</element>
+					<element kind="staticText" uuid="fbe7d496-8cfa-4ffd-a1ee-98864e4646aa" x="610" y="0" width="70" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+						<text><![CDATA[Plan]]></text>
+						<box>
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+					</element>
+					<element kind="staticText" uuid="7a20c2d3-d325-49e6-8fc5-053d27a01635" x="680" y="0" width="70" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+						<text><![CDATA[Real]]></text>
+						<box>
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+					</element>
+				</contents>
+			</component>
+		</element>
+		<element kind="component" uuid="0ea71a12-cb43-4a94-93b6-0f68c53dba1c" mode="Transparent" x="0" y="70" width="750" height="40">
+			<component kind="list">
+				<datasetRun uuid="2c3b6706-c0d7-4409-ba9c-9e6a358d4449" subDataset="Dataset2">
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				</datasetRun>
+				<contents height="40" width="750">
+					<element kind="staticText" uuid="7c5720be-3d6e-43f7-b7cf-0bb9c147b4bb" x="0" y="0" width="530" height="30" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+						<text><![CDATA[Índice de cumplimiento:     Bien = 100 % = 5     Regular ≤ 99 y hasta 81 % = 3     Mal ≤ 80 % = 0]]></text>
+					</element>
+					<element kind="textField" uuid="0d64682b-a41f-4d3e-b522-cc935f4cfb8d" mode="Opaque" x="600" y="0" width="100" height="30" fontName="Arial" fontSize="12.0" linkType="None" linkTarget="Self" bold="true" hTextAlign="Center" vTextAlign="Middle" style="Style1">
+						<expression><![CDATA[$V{indice_cumplimiento}]]></expression>
+						<box style="Style1">
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+					</element>
+				</contents>
+			</component>
+		</element>
+	</summary>
+</jasperReport>

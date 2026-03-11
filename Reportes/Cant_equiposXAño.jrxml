@@ -1,0 +1,89 @@
+<!-- Created with Jaspersoft Studio version 7.0.1.final using JasperReports Library version 7.0.1-573496633c2b4074e32f433154b543003f7d2498  -->
+<jasperReport name="Cant_equiposXAño" language="java" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="118433e5-9be7-497f-b4c9-cb3a48c242f5">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<query language="plsql"><![CDATA[SELECT existenciaxyear.year, cantcompu, cantdispred, canttelfmovil, canttelfvoip, total FROM existenciaxyear;]]></query>
+	<field name="year" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="year"/>
+		<property name="com.jaspersoft.studio.field.label" value="year"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="existenciaxyear"/>
+	</field>
+	<field name="cantcompu" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="cantcompu"/>
+		<property name="com.jaspersoft.studio.field.label" value="cantcompu"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="existenciaxyear"/>
+	</field>
+	<field name="cantdispred" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="cantdispred"/>
+		<property name="com.jaspersoft.studio.field.label" value="cantdispred"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="existenciaxyear"/>
+	</field>
+	<field name="canttelfmovil" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="canttelfmovil"/>
+		<property name="com.jaspersoft.studio.field.label" value="canttelfmovil"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="existenciaxyear"/>
+	</field>
+	<field name="canttelfvoip" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="canttelfvoip"/>
+		<property name="com.jaspersoft.studio.field.label" value="canttelfvoip"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="existenciaxyear"/>
+	</field>
+	<field name="total" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="total"/>
+		<property name="com.jaspersoft.studio.field.label" value="total"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="existenciaxyear"/>
+	</field>
+	<background splitType="Stretch"/>
+	<pageHeader height="112" splitType="Stretch">
+		<element kind="image" uuid="9e9037b7-071e-4a4e-8a06-b89ad2e817fb" x="20" y="0" width="130" height="100">
+			<expression><![CDATA["Reportes/CUPET_Logo.png"]]></expression>
+		</element>
+		<element kind="textField" uuid="26b2a7eb-a9f4-4fcb-9ead-13a2a95ab0a7" x="435" y="37" width="140" height="30" fontName="Arial" fontSize="14.0" pattern="MMMMM dd, yyyy">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+	</pageHeader>
+	<summary height="639">
+		<element kind="staticText" uuid="2b2817ee-039f-408d-9084-46036e6514a2" x="10" y="9" width="551" height="30" fontName="Arial" fontSize="20.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Cantidad de equipos existentes en los últimos 5 años]]></text>
+		</element>
+		<element kind="chart" chartType="bar" uuid="67ff2cda-da25-462a-ad88-54a2228c00a2" x="10" y="349" width="550" height="285" evaluationTime="Report">
+			<dataset kind="category">
+				<series>
+					<seriesExpression><![CDATA["Todos los equipos"]]></seriesExpression>
+					<categoryExpression><![CDATA[$F{year}]]></categoryExpression>
+					<valueExpression><![CDATA[$F{total}]]></valueExpression>
+				</series>
+			</dataset>
+			<plot categoryAxisLabelColor="#000000" categoryAxisTickLabelColor="#000000" categoryAxisLineColor="#000000" valueAxisLabelColor="#000000" valueAxisTickLabelColor="#000000" valueAxisLineColor="#000000">
+				<itemLabel/>
+			</plot>
+		</element>
+		<element kind="chart" chartType="bar" uuid="ed511efd-c493-445f-b48f-d4cd547e155e" x="10" y="50" width="550" height="285" evaluationTime="Report">
+			<dataset kind="category">
+				<series>
+					<seriesExpression><![CDATA["cantidad de computadoras"]]></seriesExpression>
+					<categoryExpression><![CDATA[$F{year}]]></categoryExpression>
+					<valueExpression><![CDATA[$F{cantcompu}]]></valueExpression>
+				</series>
+				<series>
+					<seriesExpression><![CDATA["cantidad de telf. móviles"]]></seriesExpression>
+					<categoryExpression><![CDATA[$F{year}]]></categoryExpression>
+					<valueExpression><![CDATA[$F{canttelfmovil}]]></valueExpression>
+				</series>
+				<series>
+					<seriesExpression><![CDATA["cantidad de telf. VOIP"]]></seriesExpression>
+					<categoryExpression><![CDATA[$F{year}]]></categoryExpression>
+					<valueExpression><![CDATA[$F{canttelfvoip}]]></valueExpression>
+				</series>
+				<series>
+					<seriesExpression><![CDATA["cantidad de disp. red (switchs y routers)"]]></seriesExpression>
+					<categoryExpression><![CDATA[$F{year}]]></categoryExpression>
+					<valueExpression><![CDATA[$F{cantdispred}]]></valueExpression>
+				</series>
+			</dataset>
+			<plot categoryAxisLabelColor="#000000" categoryAxisTickLabelColor="#000000" categoryAxisLineColor="#000000" valueAxisLabelColor="#000000" valueAxisTickLabelColor="#000000" valueAxisLineColor="#000000">
+				<itemLabel/>
+			</plot>
+		</element>
+	</summary>
+</jasperReport>
