@@ -1,0 +1,57 @@
+<!-- Created with Jaspersoft Studio version 7.0.1.final using JasperReports Library version 7.0.1-573496633c2b4074e32f433154b543003f7d2498  -->
+<jasperReport name="Cant_equiposXdepartamentos" language="java" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="78104e87-1bbf-4a5d-859d-090762ba544c">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<query language="plsql"><![CDATA[SELECT COUNT(*) AS "Cantidad de equipos por departamento", (SELECT COUNT(*) FROM Computadora) AS "Total de equipos", departamento 
+FROM Computadora GROUP BY departamento;]]></query>
+	<field name="Cantidad de equipos por departamento" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="Cantidad de equipos por departamento"/>
+		<property name="com.jaspersoft.studio.field.label" value="Cantidad de equipos por departamento"/>
+	</field>
+	<field name="Total de equipos" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="Total de equipos"/>
+		<property name="com.jaspersoft.studio.field.label" value="Total de equipos"/>
+	</field>
+	<field name="departamento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="departamento"/>
+		<property name="com.jaspersoft.studio.field.label" value="departamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="equipo"/>
+	</field>
+	<background splitType="Stretch"/>
+	<pageHeader height="107" splitType="Stretch">
+		<element kind="image" uuid="0a761d97-2733-481f-a310-95a1a652875e" x="10" y="0" width="130" height="100">
+			<expression><![CDATA["Reportes/CUPET_Logo.png"]]></expression>
+		</element>
+		<element kind="textField" uuid="8fb98539-b18f-4bed-9b9f-e72324afbaff" x="430" y="38" width="140" height="30" fontName="Arial" fontSize="14.0" pattern="MMMMM dd, yyyy">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+	</pageHeader>
+	<columnHeader height="52" splitType="Stretch">
+		<element kind="staticText" uuid="dad232b6-5154-4d50-99bb-afabfce3d593" x="60" y="10" width="461" height="30" fontName="Arial" fontSize="20.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Cantidad de computadoras por Departamento]]></text>
+		</element>
+	</columnHeader>
+	<pageFooter height="62" splitType="Stretch"/>
+	<summary height="448">
+		<element kind="chart" chartType="pie" uuid="7e487049-3dc0-4919-8713-34ae916ff61a" x="5" y="5" width="570" height="390" evaluationTime="Report">
+			<legendFont fontName="Arial" fontSize="12.0"/>
+			<dataset kind="pie">
+				<otherLabelExpression><![CDATA[]]></otherLabelExpression>
+				<series>
+					<keyExpression><![CDATA[$F{departamento}]]></keyExpression>
+					<valueExpression><![CDATA[$F{Cantidad de equipos por departamento}]]></valueExpression>
+					<labelExpression><![CDATA[$F{Cantidad de equipos por departamento}+($F{Cantidad de equipos por departamento} == 1?" equipo":" equipos")+" ("+
+($F{Cantidad de equipos por departamento}*100/$F{Total de equipos})+"%)"]]></labelExpression>
+				</series>
+			</dataset>
+			<plot>
+				<itemLabel>
+					<font fontName="Arial" fontSize="12.0"/>
+				</itemLabel>
+			</plot>
+		</element>
+		<element kind="textField" uuid="90ba9ffe-8823-4048-a187-992814c2bcef" x="245" y="405" width="260" height="30" fontName="Arial" fontSize="12.0" linkType="None" linkTarget="Self">
+			<expression><![CDATA["Total de equipos ("+$F{Total de equipos}+")"]]></expression>
+		</element>
+	</summary>
+</jasperReport>

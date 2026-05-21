@@ -1,0 +1,35 @@
+# Carpetas de compilación de Java
+target/
+build/
+out/
+dist/
+bin/
+
+# Archivos de NetBeans
+nbproject/private/
+nb-configuration.xml
+nbactions.xml
+*.swp
+
+# Archivos de configuración de IDE
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+
+# Archivos compilados y logs
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración con claves o datos sensibles
+application-secret.properties
+*.env

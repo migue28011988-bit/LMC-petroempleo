@@ -1,0 +1,186 @@
+<!-- Created with Jaspersoft Studio version 7.0.1.final using JasperReports Library version 7.0.1-573496633c2b4074e32f433154b543003f7d2498  -->
+<jasperReport name="Software_intalado" language="java" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f5bc76f6-b73c-4a5f-ae27-55b60dea7f46">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<dataset name="Dataset1" uuid="0bafeee2-8742-4306-b905-f489e41fab13">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+		<parameter name="ip_equipo" class="java.lang.String"/>
+		<query language="plsql"><![CDATA[SELECT row_number() OVER(PARTITION BY ip) pos, nombre, version, fecha, size FROM computadora LEFT JOIN software
+ON software.equipoid = computadora.id WHERE ip = $P{ip_equipo};]]></query>
+		<field name="pos" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.name" value="pos"/>
+			<property name="com.jaspersoft.studio.field.label" value="pos"/>
+		</field>
+		<field name="nombre" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="software"/>
+		</field>
+		<field name="version" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="version"/>
+			<property name="com.jaspersoft.studio.field.label" value="version"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="software"/>
+		</field>
+		<field name="fecha" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="fecha"/>
+			<property name="com.jaspersoft.studio.field.label" value="fecha"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="software"/>
+		</field>
+		<field name="size" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="size"/>
+			<property name="com.jaspersoft.studio.field.label" value="size"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="software"/>
+		</field>
+	</dataset>
+	<query language="plsql"><![CDATA[SELECT nombrered, ip, tipo FROM computadora ORDER BY nombrered;]]></query>
+	<field name="nombrered" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombrered"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombrered"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="computadora"/>
+	</field>
+	<field name="ip" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ip"/>
+		<property name="com.jaspersoft.studio.field.label" value="ip"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="computadora"/>
+	</field>
+	<field name="tipo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tipo"/>
+		<property name="com.jaspersoft.studio.field.label" value="tipo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="computadora"/>
+	</field>
+	<background splitType="Stretch"/>
+	<pageHeader height="105" splitType="Stretch">
+		<element kind="image" uuid="ce799dc2-9fbd-40cf-8f91-04c603c45669" x="20" y="0" width="130" height="100">
+			<expression><![CDATA["Reportes/CUPET_Logo.png"]]></expression>
+		</element>
+		<element kind="textField" uuid="43495a60-7ac5-4973-b857-7d1732cddb72" x="430" y="40" width="140" height="30" fontName="Arial" fontSize="14.0" pattern="MMMMM dd, yyyy">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+	</pageHeader>
+	<columnHeader height="83">
+		<element kind="staticText" uuid="6754750f-94af-464d-be42-5e52f9301d70" mode="Opaque" x="0" y="53" width="50" height="30" backcolor="#66FFFF" fontName="Arial" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Pos.]]></text>
+			<box>
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="2ac82393-7274-4877-8538-f2921e207867" mode="Opaque" x="50" y="53" width="280" height="30" backcolor="#66FFFF" fontName="Arial" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Nombre]]></text>
+			<box>
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="16d77f97-f36b-4eb9-b845-4e32d62d478d" mode="Opaque" x="410" y="53" width="100" height="30" backcolor="#66FFFF" fontName="Arial" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Fecha (A-M-D)]]></text>
+			<box>
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="35b0fdee-7761-4b96-8c19-503a3d8a1f28" mode="Opaque" x="510" y="53" width="60" height="30" backcolor="#66FFFF" fontName="Arial" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Tamaño]]></text>
+			<box>
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="cf162c5e-c684-41ac-a564-67d5f83cc95a" mode="Opaque" x="330" y="53" width="80" height="30" backcolor="#66FFFF" fontName="Arial" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Versión]]></text>
+			<box>
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="180cd004-1f2b-4d17-88f2-54412666de58" x="10" y="10" width="551" height="30" fontName="Arial" fontSize="15.0" linkType="None" linkTarget="Self" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<expression><![CDATA["Software instalado "+($F{tipo}.toLowerCase().equals("servidor")? "del " : "de la ")+$F{tipo}+": "+$F{nombrered}]]></expression>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="493" splitType="Stretch">
+			<element kind="component" uuid="0047f0cc-a5e4-41d0-b317-ca4d624a45e5" x="0" y="0" width="570" height="40">
+				<component kind="list">
+					<datasetRun uuid="af38e7ae-0a2e-48b0-a055-2152977c1497" subDataset="Dataset1">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						<parameter name="ip_equipo">
+							<expression><![CDATA[$F{ip}]]></expression>
+						</parameter>
+					</datasetRun>
+					<contents height="40" width="570">
+						<element kind="textField" uuid="15cae1ce-baf7-4923-a1be-012588827c97" x="410" y="0" width="100" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+							<expression><![CDATA[$F{fecha} == null? "---" : $F{fecha}]]></expression>
+							<box>
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</element>
+						<element kind="textField" uuid="b543c325-a368-4514-8bd1-f175b48ac4ab" x="510" y="0" width="60" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+							<expression><![CDATA[$F{size} == null? "---" : $F{size}]]></expression>
+							<box>
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</element>
+						<element kind="textField" uuid="e208fac3-c986-4243-b48f-0ab2a13d547f" x="330" y="0" width="80" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+							<expression><![CDATA[$F{version} == null? "---" : $F{version}]]></expression>
+							<box>
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</element>
+						<element kind="textField" uuid="ab4a6f6c-5e4a-4fc8-9408-9ce2883c7e30" x="50" y="0" width="280" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+							<expression><![CDATA[$F{nombre} == null? "---" : $F{nombre}]]></expression>
+							<box>
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</element>
+						<element kind="textField" uuid="215c77a6-7ced-4588-ba47-a0ab07351ba9" x="0" y="0" width="50" height="40" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+							<expression><![CDATA[$F{pos}]]></expression>
+							<box>
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</element>
+					</contents>
+				</component>
+			</element>
+		</band>
+	</detail>
+	<pageFooter height="54" splitType="Stretch">
+		<element kind="textField" uuid="21ff0547-6ee4-49bd-b521-998fa0561b7d" x="80" y="10" width="20" height="30" fontName="Arial" fontSize="12.0" evaluationTime="Report">
+			<expression><![CDATA[$V{PAGE_NUMBER}]]></expression>
+		</element>
+		<element kind="staticText" uuid="62b22762-89e0-4cca-9ec9-b39964732e6e" x="70" y="10" width="10" height="30" fontName="Arial" fontSize="12.0">
+			<text><![CDATA[/]]></text>
+		</element>
+		<element kind="textField" uuid="87084b4d-a802-4166-a831-74e28beb27f6" x="51" y="10" width="19" height="30" fontName="Arial" fontSize="12.0">
+			<expression><![CDATA[$V{PAGE_NUMBER}]]></expression>
+		</element>
+		<element kind="staticText" uuid="2896d5a8-4775-4a56-be90-702c3aeb5ec1" x="0" y="10" width="51" height="30" fontName="Arial" fontSize="12.0">
+			<text><![CDATA[Página]]></text>
+		</element>
+	</pageFooter>
+</jasperReport>
