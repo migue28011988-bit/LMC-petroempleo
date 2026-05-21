@@ -15,5 +15,5 @@ Sistema compuesto por:
 
 ## Compilar desde código
 
--Requiere Java 24+. Ver cada subproyecto.
--Este proyecto fue desarrollado con ANT por tanto las dependencias fueron incorporadas manualmente al IDE netbeans 25, puede descargar las dependencias usadas en el proyecto desde [Releases](https://github.com/migue28011988-bit/LMC-petroempleo/releases)
+- Requiere Java 24+. Ver cada subproyecto.
+- Este proyecto fue desarrollado con ANT por tanto las dependencias fueron incorporadas manualmente al IDE netbeans 25, puede descargar las dependencias usadas en el proyecto desde [Releases](https://github.com/migue28011988-bit/LMC-petroempleo/releases)
