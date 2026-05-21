@@ -8,10 +8,10 @@ Sistema compuesto por:
 
 1. **Instalar PostgreSQL** (versión 16 o superior) desde [aquí](https://www.postgresql.org/download/windows/)
 2. **Descargar los instaladores** desde la sección [Releases](https://github.com/migue28011988-bit/LMC-petroempleo/releases)
-3. Ejecutar e Instalar `LMC-1.0-setup.exe` en el servidor
-4. Ejecutar e Instalar `LMC_agente-1.0-setup.exe` en cada PC cliente
+3. Ejecutar e Instalar `LMC-1.0.exe` en el servidor
+4. Ejecutar e Instalar `LMC_agente-1.0.exe` en cada PC cliente
 8. Agregar al PATH del sistema las variables de entorno de postgreSQL (la dirección donde se encuentra la carpeta PostgreSQL\xx\bin en el instalado) y java (la dirección donde se encuentra la carpeta runtime/bin en la app instalada)
-9. Siempre ejecutar como administrador
+9. Siempre ejecutar como administrador las apps instaladas
 
 ## Compilar desde código
 
